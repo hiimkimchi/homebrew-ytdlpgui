@@ -19,7 +19,7 @@ class Ytdlpgui < Formula
     # Build the .app bundle (uses python3.12 with tk from python-tk@3.12)
     system "chmod", "+x", "extras/build_app.sh"
     system "./extras/build_app.sh"
-    prefix.install "dist/ytdlp gui.app" => "Applications/ytdlp gui.app"
+    prefix.install buildpath/"dist/ytdlp gui.app" => "Applications/ytdlp gui.app"
     # Install to /Applications so it appears in Finder and Spotlight
     system "cp", "-R", prefix/"Applications/ytdlp gui.app", "/Applications/"
   end
