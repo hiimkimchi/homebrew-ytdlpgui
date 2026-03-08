@@ -30,7 +30,6 @@ class Ytdlpgui < Formula
     BASH
     chmod 0755, app_contents/"MacOS/launch.sh"
 
-    system "cp", "-R", prefix/"Applications/ytdlp gui.app", "/Applications/"
   end
 
   def caveats
@@ -38,7 +37,8 @@ class Ytdlpgui < Formula
       Launch from terminal:
         ytdlpgui
 
-      The app "ytdlp gui" has been added to /Applications. Open it from Finder or Spotlight.
+      To add to /Applications (for Finder & Spotlight):
+        ln -sf "#{opt_prefix}/Applications/ytdlp gui.app" "/Applications/ytdlp gui.app"
 
       yt-dlp and ffmpeg are installed as dependencies.
     EOS
@@ -49,3 +49,4 @@ class Ytdlpgui < Formula
     system libexec/"bin/python3", "-c", "import ytdlpgui"
   end
 end
+
