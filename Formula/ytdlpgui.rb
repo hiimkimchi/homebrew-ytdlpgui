@@ -15,18 +15,23 @@ class Ytdlpgui < Formula
   def install
     venv = virtualenv_create(libexec, "python3.12")
     venv.pip_install_and_link buildpath
+
+    # Build the .app bundle (uses python3.12 with tk from python-tk@3.12)
+    system "chmod", "+x", "extras/build_app.sh"
+    system "./extras/build_app.sh"
+    prefix.install "dist/ytdlp gui.app" => "Applications/ytdlp gui.app"
+    # Install to /Applications so it appears in Finder and Spotlight
+    system "cp", "-R", prefix/"Applications/ytdlp gui.app", "/Applications/"
   end
 
   def caveats
     <<~EOS
-      Launch the app from your terminal:
+      Launch from terminal:
         ytdlpgui
 
-      Or add it to your Applications folder using the included app bundle
-      (see extras/ytdlpgui.app in the repository).
+      The app "ytdlp gui" has been added to /Applications. Open it from Finder or Spotlight.
 
-      yt-dlp and ffmpeg have been installed as dependencies and will be
-      picked up automatically.
+      yt-dlp and ffmpeg are installed as dependencies.
     EOS
   end
 
