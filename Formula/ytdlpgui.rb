@@ -8,6 +8,7 @@ class Ytdlpgui < Formula
   license "Apache-2.0"
 
   depends_on "python@3.12"
+  depends_on "python-tk@3.12"
   depends_on "yt-dlp"
   depends_on "ffmpeg"
 
