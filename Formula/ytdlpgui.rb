@@ -3,8 +3,8 @@ class Ytdlpgui < Formula
 
   desc "Polished macOS GUI wrapper for yt-dlp"
   homepage "https://github.com/hiimkimchi/ytdlp-gui"
-  url "https://github.com/hiimkimchi/ytdlp-gui/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "b4d6db4790d06d3f04eb9294f11d9635ca1ee55acc8f4a0dddc72b219e2db4aa"
+  url "https://github.com/hiimkimchi/ytdlp-gui/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "9b38371f712e25f16e05d4028ecb871507e2ddcf8e8bce752973ad1edc279d2b"
   license "Apache-2.0"
 
   depends_on "python@3.12"
