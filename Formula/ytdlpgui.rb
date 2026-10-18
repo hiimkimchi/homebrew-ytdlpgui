@@ -3,24 +3,26 @@ class Ytdlpgui < Formula
 
   desc "macOS GUI for yt-dlp downloads and demucs stem splitting"
   homepage "https://github.com/hiimkimchi/ytdlp-gui"
-  url "https://github.com/hiimkimchi/ytdlp-gui/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "9c531bd5629f68b917c2abc8e9738c80d95dfbbb15243a4c23fdcfd7619b0598"
+  url "https://github.com/hiimkimchi/ytdlp-gui/archive/refs/tags/v1.1.1.tar.gz"
+  sha256 "b10a9bc38ddbcf122c1f374002f2602267c344bf35b090dc65bd5b0490ebd739"
   license "Apache-2.0"
 
+  # python@3.14 shares openssl@4 with ffmpeg; mixing in python@3.12 (openssl@3)
+  # trips Homebrew's lock when it relinks openssl during upgrades.
   depends_on "ffmpeg"
-  depends_on "python-tk@3.12"
-  depends_on "python@3.12"
-  depends_on "yt-dlp"
+  depends_on "python-tk@3.14"
+  depends_on "python@3.14"
 
   def install
-    venv = virtualenv_create(libexec, "python3.12")
+    venv = virtualenv_create(libexec, "python3.14")
 
-    # demucs depends on PyTorch, which can't be built from source here, so it
-    # and its dependencies come from PyPI wheels. Installed before the app so
-    # only the ytdlpgui entry point gets linked into bin.
-    system formula_opt_bin("python@3.12")/"python3.12", "-m", "pip",
+    # PyTorch (for demucs) and deno (yt-dlp's JS runtime) come from PyPI
+    # wheels; building them from source needs Rust/LLVM and takes hours on
+    # macOS versions without bottles. Installed before the app so only the
+    # ytdlpgui entry point gets linked into bin.
+    system formula_opt_bin("python@3.14")/"python3.14", "-m", "pip",
            "--python=#{libexec}/bin/python", "install", "--no-compile",
-           "demucs>=4.1", "numpy"
+           "yt-dlp[default,deno]", "demucs>=4.1", "numpy"
     venv.pip_install_and_link buildpath
 
     # Assemble .app bundle directly (avoids build_app.sh's pip/network issues)
@@ -46,13 +48,14 @@ class Ytdlpgui < Formula
       To add to /Applications (for Finder & Spotlight):
         ln -sf "#{opt_prefix}/Applications/ytdlp gui.app" "/Applications/ytdlp gui.app"
 
-      yt-dlp, ffmpeg, and demucs are installed as dependencies.
+      ffmpeg is installed as a dependency; yt-dlp and demucs live inside the app.
       The first stem split downloads the demucs model (~80 MB).
     EOS
   end
 
   test do
-    system libexec/"bin/python3", "-c", "import ytdlpgui, ytdlpgui.stems"
+    system libexec/"bin/python3", "-c", "import tkinter, ytdlpgui, ytdlpgui.stems"
+    system libexec/"bin/yt-dlp", "--version"
     system libexec/"bin/python3", "-m", "demucs.separate", "--help"
   end
 end
