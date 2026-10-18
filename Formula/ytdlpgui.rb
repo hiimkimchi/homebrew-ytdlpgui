@@ -3,8 +3,8 @@ class Ytdlpgui < Formula
 
   desc "macOS GUI for yt-dlp downloads and demucs stem splitting"
   homepage "https://github.com/hiimkimchi/ytdlp-gui"
-  url "https://github.com/hiimkimchi/ytdlp-gui/archive/refs/tags/v1.1.1.tar.gz"
-  sha256 "b10a9bc38ddbcf122c1f374002f2602267c344bf35b090dc65bd5b0490ebd739"
+  url "https://github.com/hiimkimchi/ytdlp-gui/archive/refs/tags/v1.1.2.tar.gz"
+  sha256 "ca3e6e156c7b93f37294b473308cf3739261853d8db33908343ef20c956a8a5d"
   license "Apache-2.0"
 
   # python@3.14 shares openssl@4 with ffmpeg; mixing in python@3.12 (openssl@3)
